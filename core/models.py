@@ -40,3 +40,16 @@ class LostItem(models.Model):
     class Meta:
         db_table = 'LostItem'
         db_table_comment = 'Lost Item Attributes'
+
+class ClaimForm(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    item_id = models.OneToOneField(
+        LostItem,
+        on_delete=models.CASCADE,
+        primary_key=False,
+    )
+    name = models.CharField()
+    email = models.CharField()
+    number = models.CharField()
+    media = models.CharField()
+    created_at = models.DateTimeField()
