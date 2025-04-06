@@ -35,7 +35,6 @@ class LostItem(models.Model):
     description = models.TextField()
     location_found = models.TextField()
     photo_url = models.CharField()
-    created_at = models.DateTimeField()
 
     class Meta:
         db_table = 'LostItem'
