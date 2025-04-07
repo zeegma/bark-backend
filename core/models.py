@@ -1,6 +1,6 @@
 from django.db import models
 
-# Create your models here.
+# Admin Model
 class Admin(models.Model):
     id = models.BigAutoField(primary_key=True)
     created_at = models.DateTimeField()
@@ -13,8 +13,10 @@ class Admin(models.Model):
         db_table = 'Admin'
         db_table_comment = 'Admin credentials for secure access.'
 
+# Lost Item Model
 class LostItem(models.Model):
     
+    # Categories for user to select
     class Categories(models.TextChoices):
         # Used to organize choices for category attribute
         ELECTRONICS = 'EL', 'Electronics'
@@ -23,6 +25,7 @@ class LostItem(models.Model):
         JEWELRY = 'JW', 'Jewelry'
         MISC = 'MS', 'Miscellaneous'
 
+    # Status for user to select
     class Status(models.TextChoices):
         UNCLAIMED = 'UC', 'Unclaimed'
         CLAIMED = 'CL', 'Claimed'
@@ -40,6 +43,7 @@ class LostItem(models.Model):
         db_table = 'LostItem'
         db_table_comment = 'Lost Item Attributes'
 
+# Claim Form Model
 class ClaimForm(models.Model):
     id = models.BigAutoField(primary_key=True)
     item_id = models.OneToOneField(
