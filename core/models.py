@@ -3,11 +3,10 @@ from django.db import models
 # Admin Model
 class Admin(models.Model):
     id = models.BigAutoField(primary_key=True)
-    created_at = models.DateTimeField()
-    username = models.CharField(unique=True)
     name = models.CharField()
+    email = models.CharField(unique=True)
+    number = models.CharField()
     password = models.CharField()
-    position = models.CharField()
 
     class Meta:
         db_table = 'Admin'
@@ -31,13 +30,14 @@ class LostItem(models.Model):
         CLAIMED = 'CL', 'Claimed'
 
     id = models.BigAutoField(primary_key=True)
-    created_at = models.DateTimeField()
     name = models.CharField()
-    category = models.CharField(max_length=2, choices=Categories.choices, default=Categories.MISC)
-    status = models.CharField(max_length=2, choices=Status.choices, default=Status.UNCLAIMED)
     description = models.TextField()
+    category = models.CharField(max_length=2, choices=Categories.choices, default=Categories.MISC)
+    date_found = models.DateField()
+    time_found = models.TimeField()
     location_found = models.TextField()
     photo_url = models.CharField()
+    status = models.CharField(max_length=2, choices=Status.choices, default=Status.UNCLAIMED)
 
     class Meta:
         db_table = 'LostItem'
@@ -46,13 +46,14 @@ class LostItem(models.Model):
 # Claim Form Model
 class ClaimForm(models.Model):
     id = models.BigAutoField(primary_key=True)
+    claim_date = models.DateField()
+    name = models.CharField()
+    ownership_photo = models.URLField()
+    detailed_description = models.TextField()
+    number = models.CharField()
+    media = models.URLField()
     item_id = models.OneToOneField(
         LostItem,
         on_delete=models.CASCADE,
         primary_key=False,
     )
-    name = models.CharField()
-    email = models.CharField()
-    number = models.CharField()
-    media = models.CharField()
-    created_at = models.DateTimeField()
