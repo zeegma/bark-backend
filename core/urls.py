@@ -1,7 +1,9 @@
 from django.urls import path
+from .views.lost_item_views import get_lost_items
 
 from . import views
 
 urlpatterns = [
-    path("", views.index, name="index"),
+    path("", get_lost_items, name="getLostItems"),
+    path("dashboard", get_lost_items, name="getLostItems"),
 ]
