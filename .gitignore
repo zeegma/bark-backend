@@ -2,5 +2,5 @@
 .env
 db.sqlite3
 core/__pycache__/
-core/migrations/__pycache__/
+core/__pycache__/
 pylost/__pycache__/
