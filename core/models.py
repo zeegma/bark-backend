@@ -46,9 +46,9 @@ class LostItem(models.Model):
 # Claim Form Model
 class ClaimForm(models.Model):
     id = models.BigAutoField(primary_key=True)
-    claim_date = models.DateField()
+    request_date = models.DateField()
     name = models.CharField()
-    ownership_photo = models.URLField()
+    ownership_photo = models.CharField()
     detailed_description = models.TextField()
     number = models.CharField()
     media = models.URLField()
