@@ -1,3 +1,5 @@
 # add .env to ignore
 .env
 db.sqlite3
+core/__pycache__/
+pylost/__pycache__/
