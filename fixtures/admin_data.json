@@ -1,0 +1,13 @@
+[
+    {
+     "model": "core.Admin",
+     "pk": "1",
+     "fields": {
+       "name": "Hans Queja",
+       "email": "hansqueja8@gmail.com",
+       "number": "09982260139",
+       "password": "GalingsaScience_89"
+     }
+    }
+]
+    

@@ -1,0 +1,16 @@
+[
+    {
+     "model": "core.ClaimForm",
+     "pk": "1",
+     "fields": {
+       "name": "Gwen Pascual",
+       "request_date": "2025-05-06",
+       "ownership_photo": "https://gvjarwrwrngkcsknosyh.supabase.co/storage/v1/object/sign/ownership-photo/claim_photo_1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJvd25lcnNoaXAtcGhvdG8vY2xhaW1fcGhvdG9fMS5qcGciLCJpYXQiOjE3NDQwODY0OTgsImV4cCI6MTc0NjY3ODQ5OH0.4o4Q6smU2XC2Dif5FZrWk1jY2zk8yaICric1BDK1wzA",
+       "detailed_description": "It has a single dot on the top right-hand side.",
+       "number": "13:51:21",
+       "media": "https://www.facebook.com/queja.hans/",
+       "item_id": "1"
+     }
+    }
+    ]
+    

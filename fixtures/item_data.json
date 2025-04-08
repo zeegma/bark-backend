@@ -1,0 +1,17 @@
+[
+    {
+     "model": "core.LostItem",
+     "pk": "1",
+     "fields": {
+       "name": "iPhone 20 Max Pro",
+       "description": "Full Paid po ito",
+       "category": "EL",
+       "date_found": "2025-04-07",
+       "time_found": "13:51:21",
+       "location_found": "East Wing Laboratory",
+       "photo_url": "https://gvjarwrwrngkcsknosyh.supabase.co/storage/v1/object/sign/lost-item-images/image1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJsb3N0LWl0ZW0taW1hZ2VzL2ltYWdlMS5qcGciLCJpYXQiOjE3NDQwODEzNjIsImV4cCI6MTc0NDY4NjE2Mn0.a2suxpL9BAifD_NflsGfpiNkAjDBRNiqEJDW1KAJ0iA",
+       "status": "UC"
+     }
+    }
+]
+    
