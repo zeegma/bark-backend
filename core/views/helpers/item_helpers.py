@@ -2,20 +2,29 @@ import os
 import re
 from supabase import create_client, Client
 
-# Uploads image from request to supabase
-# If you want to automatically name it, don't add name as argument
-def upload_photo_supabase(image, image_name="default"):
+"""
+upload_photo_supabase parameters
+
+image           = the image we are trying to upload
+image_name      = could be blank, which will activate automatic naming. if argument is given,
+                  then won't resort to automatic
+bucket          = which bucket to upload the photo, default is lost-item-images.
+
+return value is the url of the image which can be used for creating or editing records.
+
+"""
+def upload_photo_supabase(image, image_name="default", bucket="lost-item-images"):
     supabase = create_supabase_instance()
 
     # If it needs dynamic naming
     if image_name == "default":
-        image_name = setup_photo_name(supabase, image)
+        image_name = setup_photo_name(supabase, image, bucket)
     image_data = image.read()
 
     # Upload image to supabase
     try:
         # Replace the "lost-item-images" by the bucket you are uploading to
-        supabase.storage.from_("lost-item-images").upload(
+        supabase.storage.from_(bucket).upload(
                 file=image_data,
                 path=image_name,
                 file_options={"content-type": image.content_type}
@@ -26,7 +35,7 @@ def upload_photo_supabase(image, image_name="default"):
     # Takes the working URL of the recently uploaded image for storing
     url_response = (
         supabase.storage
-        .from_("lost-item-images")
+        .from_(bucket)
         .get_public_url(image_name)
     )
 
@@ -46,11 +55,11 @@ def create_supabase_instance():
 
 
 # If there is a need for automatic naming, call the function
-def setup_photo_name(supabase, image):
+def setup_photo_name(supabase, image, bucket):
     # Get last uploaded image name
     response = (
         supabase.storage
-        .from_("lost-item-images")
+        .from_(bucket)
         .list(
             "",
             {
