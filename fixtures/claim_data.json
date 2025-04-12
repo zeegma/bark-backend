@@ -1,16 +1,146 @@
 [
-    {
-     "model": "core.ClaimForm",
-     "pk": "1",
-     "fields": {
-       "name": "Gwen Pascual",
-       "request_date": "2025-05-06",
-       "ownership_photo": "https://gvjarwrwrngkcsknosyh.supabase.co/storage/v1/object/sign/ownership-photo/claim_photo_1.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJvd25lcnNoaXAtcGhvdG8vY2xhaW1fcGhvdG9fMS5qcGciLCJpYXQiOjE3NDQwODY0OTgsImV4cCI6MTc0NjY3ODQ5OH0.4o4Q6smU2XC2Dif5FZrWk1jY2zk8yaICric1BDK1wzA",
-       "detailed_description": "It has a single dot on the top right-hand side.",
-       "number": "13:51:21",
-       "media": "https://www.facebook.com/queja.hans/",
-       "item_id": "1"
-     }
-    }
-    ]
-    
+  {
+   "model": "core.ClaimForm",
+   "pk": "1",
+   "fields": {
+     "name": "Gwen Pascual",
+     "request_date": "2025-03-11",
+     "ownership_photo": "https://gvjarwrwrngkcsknosyh.supabase.co/storage/v1/object/public/ownership-photo//claim_photo_1.jpg",
+     "detailed_description": "It has a single dot on the top right-hand side.",
+     "number": "13:51:21",
+     "media": "https://www.facebook.com/queja.hans/",
+     "item_id": "1"
+   }
+  },
+  {
+   "model": "core.ClaimForm",
+   "pk": "2",
+   "fields": {
+     "name": "Ana Dela Cruz",
+     "request_date": "2025-03-26",
+     "ownership_photo": "https://gvjarwrwrngkcsknosyh.supabase.co/storage/v1/object/public/ownership-photo//claim_photo_2.jpg",
+     "detailed_description": "Naiwan ko po yung document namin sa AVR room pagtapos ng class sa NSTP. Color blue po siya tapos may ‘Research Proposals’ po na title page",
+     "number": "09174560321",
+     "media": "https://facebook.com/ana.delacruz",
+     "item_id": "2"
+   }
+  },
+  {
+   "model": "core.ClaimForm",
+   "pk": "3",
+   "fields": {
+     "name": "Joshua Ramizez",
+     "request_date": "2025-03-26",
+     "ownership_photo": "https://gvjarwrwrngkcsknosyh.supabase.co/storage/v1/object/public/ownership-photo//claim_photo_3.jpg",
+     "detailed_description": "I left my scientific calculator (Casio fx-991ES) at the Engineering Building Room 401 during our Calculus exam. May sticker siya of my name at the back.",
+     "number": "09984379210",
+     "media": "https://facebook.com/josh.ramz",
+     "item_id": "3"
+   }
+  },
+  {
+   "model": "core.ClaimForm",
+   "pk": "4",
+   "fields": {
+     "name": "Lorraine Gutierrez",
+     "request_date": "2025-03-15",
+     "ownership_photo": "https://gvjarwrwrngkcsknosyh.supabase.co/storage/v1/object/public/ownership-photo//claim_photo_4.jpg",
+     "detailed_description": "hello po. naiwan ko po ‘yung eco bag ko sa library, may lamang notebook, ballpen, and hygiene kit. kulay green po ‘yung bag. thanks po!",
+     "number": "09197345521",
+     "media": "https://facebook.com/lorraine.gtz",
+     "item_id": "4"
+   }
+  },
+  {
+   "model": "core.ClaimForm",
+   "pk": "5",
+   "fields": {
+     "name": "Ghia Sanie",
+     "request_date": "2025-04-10",
+     "ownership_photo": "https://gvjarwrwrngkcsknosyh.supabase.co/storage/v1/object/public/ownership-photo//claim_photo_5.jpg",
+     "detailed_description": "Sa akin po yung black samsung galaxy naiwan ko po sa may library",
+     "number": "09829304572",
+     "media": "https://facebook.com/sanie.gie",
+     "item_id": "5"
+   }
+  },
+  {
+   "model": "core.ClaimForm",
+   "pk": "6",
+   "fields": {
+     "name": "Alexa Cunanan",
+     "request_date": "2025-04-10",
+     "ownership_photo": "https://gvjarwrwrngkcsknosyh.supabase.co/storage/v1/object/public/ownership-photo//claim_photo_6.jpg",
+     "detailed_description": "Hi po baka sa akin yung black samsung galaxy since nawawala po siya, aso po yung wallpaper",
+     "number": "09238590239",
+     "media": "https://facebook.com/alex.22",
+     "item_id": "6"
+   }
+  },
+  {
+   "model": "core.ClaimForm",
+   "pk": "7",
+   "fields": {
+     "name": "Mia Cruz",
+     "request_date": "2025-04-09",
+     "ownership_photo": "https://gvjarwrwrngkcsknosyh.supabase.co/storage/v1/object/public/ownership-photo//claim_photo_7.jpg",
+     "detailed_description": "Notebook ko po yung yellow na may IT notes, for discrete structures po yung notes diyan",
+     "number": "092930586492",
+     "media": "https://facebook.com/miacc",
+     "item_id": "7"
+   }
+  },
+  {
+   "model": "core.ClaimForm",
+   "pk": "8",
+   "fields": {
+     "name": "Franchesca Miranda",
+     "request_date": "2025-04-12",
+     "ownership_photo": "https://gvjarwrwrngkcsknosyh.supabase.co/storage/v1/object/public/ownership-photo//claim_photo_8.jpg",
+     "detailed_description": "Hi, Im franchesca miranda, ID ko po yung napulot niyo",
+     "number": "09839450294",
+     "media": "https://facebook.com/franchiee",
+     "item_id": "8"
+   }
+  },
+  {
+   "model": "core.ClaimForm",
+   "pk": "9",
+   "fields": {
+     "name": "Lovie Blythe",
+     "request_date": "2025-04-09",
+     "ownership_photo": "https://gvjarwrwrngkcsknosyh.supabase.co/storage/v1/object/public/ownership-photo//claim_photo_9.jpg",
+     "detailed_description": "Hi, umbrella ko po yung nakita niyo na blue, may mantsa po siya sa may right side kapag binuksan.",
+     "number": "0912334960",
+     "media": "https://facebook.com/love.blythe",
+     "item_id": "9"
+   }
+  },
+  {
+   "model": "core.ClaimForm",
+   "pk": "10",
+   "fields": {
+     "name": "Severino Garcia",
+     "request_date": "2025-03-12",
+     "ownership_photo": "https://gvjarwrwrngkcsknosyh.supabase.co/storage/v1/object/public/ownership-photo//claim_photo_10.png",
+     "detailed_description": "Hi, leather wallet ko po ‘yung nakita n’yo. May ID po ako sa loob as proof.",
+     "number": "09361298002",
+     "media": "https://facebook.com/sevigarcia",
+     "item_id": "10"
+   }
+  },
+  {
+   "model": "core.ClaimForm",
+   "pk": "11",
+   "fields": {
+     "name": "Nauty Espanza",
+     "request_date": "2025-03-27",
+     "ownership_photo": "https://gvjarwrwrngkcsknosyh.supabase.co/storage/v1/object/public/ownership-photo//claim_photo_11.png",
+     "detailed_description": "hello poo naiwan ko po ung income taxation na book na to sa upuan near the souvenir shop. nalimutan ko po nung umalis na kami ng friends ko. thank u po :D",
+     "number": "09432189997",
+     "media": "https://facebook.com/itsnautyy",
+     "item_id": "11"
+   }
+  }
+]
+  
