@@ -1,5 +1,6 @@
 from django.urls import path
 from .views.lost_item_views import get_lost_items, create_lost_items, delete_lost_items
+from .views.admin_views import get_admins
 
 from . import views
 
@@ -8,4 +9,6 @@ urlpatterns = [
     path("lost-items", get_lost_items, name="getLostItems"),
     path("lost-items/create", create_lost_items, name="createLostItems"),
     path("lost-items/<int:item_id>", delete_lost_items, name="deleteLostItems"),
+
+    path("admins", get_admins, name="getAdmins")
 ]
