@@ -18,16 +18,22 @@ class LostItem(models.Model):
     # Categories for user to select
     class Categories(models.TextChoices):
         # Used to organize choices for category attribute
+        BAGS = 'BA', 'Bags & Backpacks'
         ELECTRONICS = 'EL', 'Electronics'
-        PERSONAL = 'PB', 'Personal Belongings'
-        CLOTHING = 'CL', 'Clothing & Accessories'
-        JEWELRY = 'JW', 'Jewelry'
+        EYEWEAR = 'EW', 'Eyewear'
+        FOOTWEAR = 'FW', 'Footwear'
+        ID = 'ID', 'IDs & Cards'
+        KEYS = 'KY', 'Keys'
         MISC = 'MS', 'Miscellaneous'
+        MOBILE = 'MB', 'Mobile Devices'
+        WALLETS = 'WT', 'Wallets & Purses'
+        WATCHES = 'WH', 'Watches & Jewerly'
 
-    # Status for user to select
+    # Status for user Eto select
     class Status(models.TextChoices):
         UNCLAIMED = 'UC', 'Unclaimed'
         CLAIMED = 'CL', 'Claimed'
+        EXPIRED = 'EX', 'Expired'
 
     id = models.BigAutoField(primary_key=True)
     name = models.CharField()

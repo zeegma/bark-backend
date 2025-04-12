@@ -1,13 +1,92 @@
 [
-    {
-     "model": "core.Admin",
-     "pk": "1",
-     "fields": {
-       "name": "Hans Queja",
-       "email": "hansqueja8@gmail.com",
-       "number": "09982260139",
-       "password": "GalingsaScience_89"
-     }
-    }
+  {
+   "model": "core.Admin",
+   "pk": "1",
+   "fields": {
+     "name": "Hans Queja",
+     "email": "hansqueja8@gmail.com",
+     "number": "09982260139",
+     "password": "GalingsaScience_89"
+   }
+  },
+  {
+   "model": "core.Admin",
+   "pk": "2",
+   "fields": {
+     "name": "Muni Vers",
+     "email": "munivers@gmail.com",
+     "number": "09763391593",
+     "password": "GalingsaMath_89"
+   }
+  },
+  {
+   "model": "core.Admin",
+   "pk": "3",
+   "fields": {
+     "name": "Angela Reyes",
+     "email": "angela.reyes1@gmail.com",
+     "number": "09171234567",
+     "password": "A!ng3la@2025"
+   }
+  },
+  {
+   "model": "core.Admin",
+   "pk": "4",
+   "fields": {
+     "name": "Bianca Santos",
+     "email": "biancasnts@gmail.com",
+     "number": "09451298721",
+     "password": "BiancaS#Sec25"
+   }
+  },
+  {
+   "model": "core.Admin",
+   "pk": "5",
+   "fields": {
+     "name": "Carlo Dela Peña",
+     "email": "carlodelapena.admin@gmail.com",
+     "number": "09155551111",
+     "password": "C@rl0D3L@P!"
+   }
+  },
+  {
+   "model": "core.Admin",
+   "pk": "6",
+   "fields": {
+     "name": "Regina Bonifacio",
+     "email": "rejinimikasi06@gmail.com",
+     "number": "09960874265",
+     "password": "sayOlangMahalquOh!18"
+   }
+  },
+  {
+   "model": "core.Admin",
+   "pk": "7",
+   "fields": {
+     "name": "Met Rosales",
+     "email": "simet08@gmail.com",
+     "number": "09982450968",
+     "password": "genshin4Life!"
+   }
+  },
+  {
+   "model": "core.Admin",
+   "pk": "8",
+   "fields": {
+     "name": "Charlottie Axolotl",
+     "email": "lottieaxo8@gmail.com",
+     "number": "09901236409",
+     "password": "seaLifers...09"
+   }
+  },
+  {
+   "model": "core.Admin",
+   "pk": "9",
+   "fields": {
+     "name": "Toast Rosales",
+     "email": "toastie@gmail.com",
+     "password": "TestCase06!"
+   }
+  }
 ]
-    
+  
