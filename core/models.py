@@ -28,6 +28,7 @@ class LostItem(models.Model):
     class Status(models.TextChoices):
         UNCLAIMED = 'UC', 'Unclaimed'
         CLAIMED = 'CL', 'Claimed'
+        EXPIRED = 'EX', 'Expired'
 
     id = models.BigAutoField(primary_key=True)
     name = models.CharField()
