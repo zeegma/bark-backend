@@ -49,6 +49,11 @@ def create_lost_items(request):
     return JsonResponse({"message": "Item created"}, status=200)
 
 
+# Lost Items PUT
+@csrf_exempt
+def edit_lost_items(request, item_id):
+    pass
+
 # Lost Items DELETE
 @csrf_exempt
 def delete_lost_items(request, item_id):
