@@ -1,4 +1,3 @@
-import os
 from core.models import ClaimForm
 
 def run(*args):
