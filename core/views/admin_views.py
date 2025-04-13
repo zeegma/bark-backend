@@ -36,3 +36,15 @@ def create_admin(request):
 
     except Exception as e:
         return JsonResponse({"message": f"Error creating admin: {str(e)}"}, status=400)
+    
+# Admin: Delete admin account
+@csrf_exempt
+def delete_admin(request, admin_id):
+    try:
+        admin = Admin.objects.get(id=admin_id)
+        if admin.delete():
+            return JsonResponse({"message": "Account successfully deleted."}, status=200)
+        else:
+            return JsonResponse({"message" : "Error deleting admin account."}, status=400)
+    except Admin.DoesNotExist:
+        return JsonResponse({"message": "Account does not exist."}, status=404)
