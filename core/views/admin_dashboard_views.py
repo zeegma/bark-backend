@@ -36,3 +36,11 @@ def claimed_items(request):
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
 
+# Expried Total Items
+def expired_items(request):
+    """Endpoint for expired items count"""
+    try:
+        count = LostItem.objects.filter(status=LostItem.Status.EXPIRED).count()
+        return JsonResponse({"expired": count}, status=200)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
