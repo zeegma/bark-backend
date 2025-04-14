@@ -80,3 +80,25 @@ def setup_photo_name(supabase, image, bucket):
     image_name = "image_" + str(item_count + 1) + "." + image.content_type.split('/')[1]
 
     return image_name
+
+
+# Delete photo from Supabase
+def delete_photo_supabase(supabase, photo_url, bucket="lost-item-images"):
+    photo_url = re.search(r'image_\d+\.(jpg|jpeg|png|gif|bmp|webp)', photo_url, re.IGNORECASE)
+    image_name = ""
+
+    # If there is a match to the pattern, store it to a new variable
+    if photo_url:
+        image_name = photo_url.group()
+        print(image_name)
+    else:
+        return -1
+    
+    # Delete image from supabase
+    response = (
+        supabase.storage
+        .from_(bucket)
+        .remove([image_name])
+    )
+
+    return response
