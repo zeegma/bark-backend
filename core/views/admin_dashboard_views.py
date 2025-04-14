@@ -26,3 +26,13 @@ def lost_items(request):
         return JsonResponse({"lost": count}, status=200)
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
+    
+# Claimed Total Items
+def claimed_items(request):
+    """Endpoint for claimed items count"""
+    try:
+        count = LostItem.objects.filter(status=LostItem.Status.CLAIMED).count()
+        return JsonResponse({"claimed": count}, status=200)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
+
