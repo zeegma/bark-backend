@@ -9,6 +9,27 @@ from datetime import datetime
 
 from core.models import LostItem, ClaimForm
 
+# Dashboard Get
+def dashboard_stats(request):
+    """Endpoint for all dashboard statistics"""
+    try:
+        total_items = LostItem.objects.count()
+        lost_items = LostItem.objects.filter(status=LostItem.Status.UNCLAIMED).count()
+        claimed_items = LostItem.objects.filter(status=LostItem.Status.CLAIMED).count()
+        expired_items = LostItem.objects.filter(status=LostItem.Status.EXPIRED).count()
+
+        data = {
+            "total": total_items,
+            "lost": lost_items,
+            "claimed": claimed_items,
+            "expired": expired_items
+        }
+        
+        return JsonResponse(data, status=200)
+    
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
+
 # Total Items GET
 def total_items(request):
     """Endpoint for total items count"""
