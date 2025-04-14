@@ -14,6 +14,7 @@ return value is the url of the image which can be used for creating or editing r
 
 """
 def upload_photo_supabase(image, image_name="default", bucket="lost-item-images"):
+
     supabase = create_supabase_instance()
 
     # If it needs dynamic naming
@@ -45,6 +46,7 @@ def upload_photo_supabase(image, image_name="default", bucket="lost-item-images"
 
 # Creates a supabase connection
 def create_supabase_instance():
+
     url: str = os.environ.get('SUPABASE_URL')
     key: str = os.environ.get('SUPABASE_KEY')
 
@@ -56,6 +58,7 @@ def create_supabase_instance():
 
 # If there is a need for automatic naming, call the function
 def setup_photo_name(supabase, image, bucket):
+
     # Get last uploaded image name
     response = (
         supabase.storage
@@ -84,6 +87,8 @@ def setup_photo_name(supabase, image, bucket):
 
 # Delete photo from Supabase
 def delete_photo_supabase(supabase, photo_url, bucket="lost-item-images"):
+
+    # Extract the name of the file with its type for deletion
     photo_url = re.search(r'image_\d+\.(jpg|jpeg|png|gif|bmp|webp)', photo_url, re.IGNORECASE)
     image_name = ""
 
