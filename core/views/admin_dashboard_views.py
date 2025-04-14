@@ -17,3 +17,12 @@ def total_items(request):
         return JsonResponse({"total": count}, status=200)
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
+
+# Unclaimed Total Items
+def lost_items(request):
+    """Endpoint for unclaimed/lost items count"""
+    try:
+        count = LostItem.objects.filter(status=LostItem.Status.UNCLAIMED).count()
+        return JsonResponse({"lost": count}, status=200)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
