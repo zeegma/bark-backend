@@ -100,7 +100,7 @@ def delete_photo_supabase(photo_url, bucket="lost-item-images"):
         image_name = photo_url.group()
         print(image_name)
     else:
-        return -1
+        return False
     
     # Delete image from supabase
     response = (
@@ -109,4 +109,4 @@ def delete_photo_supabase(photo_url, bucket="lost-item-images"):
         .remove([image_name])
     )
 
-    return response
+    return True
