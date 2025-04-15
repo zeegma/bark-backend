@@ -86,7 +86,10 @@ def setup_photo_name(supabase, image, bucket):
 
 
 # Delete photo from Supabase
-def delete_photo_supabase(supabase, photo_url, bucket="lost-item-images"):
+def delete_photo_supabase(photo_url, bucket="lost-item-images"):
+
+    # Create Supabase instance
+    supabase = create_supabase_instance()
 
     # Extract the name of the file with its type for deletion
     photo_url = re.search(r'image_\d+\.(jpg|jpeg|png|gif|bmp|webp)', photo_url, re.IGNORECASE)
