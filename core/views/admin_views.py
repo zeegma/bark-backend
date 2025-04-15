@@ -45,6 +45,41 @@ def delete_admin(request, admin_id):
         if admin.delete():
             return JsonResponse({"message": "Account successfully deleted."}, status=200)
         else:
-            return JsonResponse({"message" : "Error deleting admin account."}, status=400)
+            return JsonResponse({"message": "Error deleting admin account."}, status=400)
     except Admin.DoesNotExist:
         return JsonResponse({"message": "Account does not exist."}, status=404)
+    
+# Admin: Login
+@csrf_exempt
+def login_admin(request):
+    if request.method != 'POST':
+        return JsonResponse({"message": "Only POST allowed."}, status=405)
+    
+    try:
+        data = json.loads(request.body)
+        email = data.get('email')
+        password = data.get('password')
+
+        # Check if admin with input email exists
+        try:
+            admin = Admin.objects.get(email=email)
+
+            # Check if password matches
+            if admin.password == password:
+                return JsonResponse({
+                    "message": "Login successful",
+                    "admin" : {
+                        "id": admin.id,
+                        "name" : admin.name,
+                        "email" : admin.email,
+                        "number": admin.number,
+                    }
+                }, status=200)
+            else:
+                return JsonResponse({"message": "Invalid credentials."}, status=401)
+            
+        except Admin.DoesNotExist:
+            return JsonResponse({"message": "Invalid credentials."}, status=401)
+        
+    except Exception as e:
+        return JsonResponse({"message": f"Error during login: {str(e)}"}, status=400)
