@@ -106,7 +106,9 @@ def delete_lost_items(request, item_id):
 
     try:
         item = LostItem.objects.get(id=item_id)
-        if item.delete():
+        item_url = item.photo_url
+        
+        if item.delete() and delete_photo_supabase(item_url):
             return JsonResponse({"message": "Item deleted."}, status=200)
         else:
             return JsonResponse({"message": "Error deleting item."}, status=405)
