@@ -13,7 +13,7 @@ def get_admins(request):
 
 # Admin POST: Create new admin account
 @csrf_exempt
-def create_admin(request):
+def register_admin(request):
     if request.method != 'POST':
         return JsonResponse({"message": "Only POST allowed."}, status=405)
     
