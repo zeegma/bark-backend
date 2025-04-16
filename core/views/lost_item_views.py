@@ -1,7 +1,8 @@
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.http.multipartparser import MultiPartParser
 from django.core.files.uploadhandler import TemporaryFileUploadHandler
+from django.forms.models import model_to_dict
 
 import json
 
@@ -13,6 +14,26 @@ def get_lost_items(request):
 
     items = LostItem.objects.all().values()
     return JsonResponse(list(items), status=200, safe=False)
+
+
+# Lost Item Single Item GET
+def get_lost_item(request, item_id):
+
+    try:
+        item = LostItem.objects.get(id=item_id)
+        return JsonResponse({
+            "id": item.id,
+            "name": item.name,
+            "description": item.description,
+            "category": item.category,
+            "date_found": item.date_found,
+            "time_found": item.time_found,
+            "location_found": item.location_found,
+            "photo_url": item.photo_url,
+            "status": item.status
+        }, status=200, safe=False)
+    except LostItem.DoesNotExist:
+        return JsonResponse({"message": "Item does not exist."}, status=404)
 
 
 # Lost Items POST
