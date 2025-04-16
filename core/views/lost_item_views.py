@@ -6,7 +6,7 @@ from django.core.files.uploadhandler import TemporaryFileUploadHandler
 import json
 
 from .helpers.item_helpers import upload_photo_supabase, delete_photo_supabase
-from core.models import LostItem
+from core.models import LostItem, ClaimForm
 
 # Lost Items GET
 def get_lost_items(request):
@@ -106,8 +106,18 @@ def delete_lost_items(request, item_id):
 
     try:
         item = LostItem.objects.get(id=item_id)
+        claim_form = ClaimForm.objects.get(item_id=item_id)
         item_url = item.photo_url
+
+        # If item has a claim, delete the claim photo as well
+        if claim_form:
+            claim_photo_url = claim_form.ownership_photo
         
+            if item.delete() and delete_photo_supabase(item_url) and delete_photo_supabase(claim_photo_url):
+                return JsonResponse({"message": "Item deleted."}, status=200)
+            else:
+                return JsonResponse({"message": "Error deleting item."}, status=405)
+            
         if item.delete() and delete_photo_supabase(item_url):
             return JsonResponse({"message": "Item deleted."}, status=200)
         else:
