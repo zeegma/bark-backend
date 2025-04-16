@@ -53,13 +53,17 @@ class LostItem(models.Model):
 class ClaimForm(models.Model):
     id = models.BigAutoField(primary_key=True)
     request_date = models.DateField()
-    name = models.CharField()
+    name = models.CharField(max_length=100)
     ownership_photo = models.CharField()
     detailed_description = models.TextField()
-    number = models.CharField()
+    number = models.CharField(max_length=11)
     media = models.URLField()
     item_id = models.OneToOneField(
         LostItem,
         on_delete=models.CASCADE,
         primary_key=False,
     )
+
+    class Meta:
+        db_table = 'ClaimForm'
+        db_table_comment = 'Claim Form Attributes'
