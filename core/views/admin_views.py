@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth import password_validation
+from django.contrib.auth import authenticate, login, password_validation
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 
@@ -91,26 +91,21 @@ def login_admin(request):
         email = data.get('email')
         password = data.get('password')
 
-        # Check if admin with input email exists
-        try:
-            admin = Admin.objects.get(email=email)
-
-            # Check if password matches
-            if admin.password == password:
-                return JsonResponse({
-                    "message": "Login successful",
-                    "admin" : {
-                        "id": admin.id,
-                        "name" : admin.name,
-                        "email" : admin.email,
-                        "number": admin.number,
-                    }
-                }, status=200)
-            else:
-                return JsonResponse({"message": "Invalid credentials."}, status=401)
-            
-        except Admin.DoesNotExist:
-            return JsonResponse({"message": "Invalid credentials."}, status=401)
+        user = authenticate(request, email=email, password=password)
         
+        if user is not None:
+            login(request, user)
+            return JsonResponse({
+                "message": "Login successful",
+                "admin" : {
+                    "id": user.id,
+                    "name": user.name,
+                    "email": user.email,
+                    "number": user.number,
+                }
+            }, status=200)
+        else:
+            return JsonResponse({"message": "Invalid credentials."}, status=401)
+            
     except Exception as e:
         return JsonResponse({"message": f"Error during login: {str(e)}"}, status=400)
