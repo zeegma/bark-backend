@@ -1,6 +1,8 @@
-from django.core.serializers import serialize
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth import password_validation
+from django.core.exceptions import ValidationError
+
 
 from core.models import Admin
 
@@ -35,20 +37,28 @@ def register_admin(request):
     
     try:
         data = json.loads(request.body)
+        email = data.get('email')
+        password = data.get('password')
 
         # Checks if email already exists
         if Admin.objects.filter(email = data.get('email')).exists():
             return JsonResponse({"message": "Account with this email already exists."})
         
+        try:
+            password_validation.validate_password(password)
+        except ValidationError as e:
+            return JsonResponse({"message": "Password validation failed", "errors": list(e)}, status=400)
         # Create new admin
-        admin = Admin(
-            name = data.get('name'),
-            email = data.get('email'),
-            number = data.get('number'),
-            password = data.get('password')
-        )
-        admin.save()
-        return JsonResponse({"message": "Account successfully created."}, status=201)
+        try:
+            admin = Admin.objects.create_user(
+                email=email,
+                name=data.get('name'),
+                number=data.get('number'),
+                password=password
+            )
+            return JsonResponse({"message": "Account successfully created."}, status=201)
+        except Exception as e:
+            return JsonResponse({"message": f"Error creating account: {str(e)}"}, status=400)
 
     except Exception as e:
         return JsonResponse({"message": f"Error creating admin: {str(e)}"}, status=400)
