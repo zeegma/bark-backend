@@ -1,4 +1,3 @@
-import os
 from core.models import Admin
 
 def run(*args):
