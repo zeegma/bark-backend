@@ -79,8 +79,11 @@ def setup_photo_name(supabase, image, bucket):
     # Convert said count to integer
     item_count = int(item_count[0])
 
-    # Create string name with prefix, item count + 1, and content_type
-    image_name = "image_" + str(item_count + 1) + "." + image.content_type.split('/')[1]
+    if bucket == "lost-item-images":
+        # Create string name with prefix, item count + 1, and content_type
+        image_name = "image_" + str(item_count + 1) + "." + image.content_type.split('/')[1]
+    else:
+        image_name = "claim_photo_" + str(item_count + 1) + "." + image.content_type.split('/')[1]
 
     return image_name
 
