@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth import authenticate, login, password_validation
+from django.contrib.auth import authenticate, login, logout, password_validation
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 
@@ -109,3 +109,9 @@ def login_admin(request):
             
     except Exception as e:
         return JsonResponse({"message": f"Error during login: {str(e)}"}, status=400)
+    
+# Admin: Logout
+@login_required
+def logout_admin(request):
+    logout(request)
+    return JsonResponse({"message": "Successfully logged out."}, status=200)
