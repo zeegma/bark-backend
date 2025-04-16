@@ -8,7 +8,7 @@ import json
 
 # Admins GET
 def get_admins(request):
-    items = Admin.objects.all().values()
+    items = Admin.objects.all().values('id', 'name', 'email', 'number', 'last_login')
     return JsonResponse(list(items), status=200, safe=False)
 
 # Admin GET: Retrive details of specific admin
@@ -21,11 +21,12 @@ def admin_detail(request, admin_id):
                 "id": admin.id,
                 "name": admin.name,
                 "email": admin.email,
-                "number": admin.number
+                "number": admin.number,
+                "last_login": admin.last_login
             }, status=200)
         except Admin.DoesNotExist:
             return JsonResponse({"message": "Account does not exist."}, status=404)
-
+        
 # Admin POST: Create new admin account
 @csrf_exempt
 def register_admin(request):
