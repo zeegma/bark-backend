@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import password_validation
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 
 
@@ -64,6 +65,7 @@ def register_admin(request):
         return JsonResponse({"message": f"Error creating admin: {str(e)}"}, status=400)
     
 # Admin: Delete admin account
+@login_required
 @csrf_exempt
 def delete_admin(request, admin_id):
     if request.method != 'DELETE':
