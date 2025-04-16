@@ -112,16 +112,18 @@ def delete_lost_items(request, item_id):
         # If item has a claim, delete the claim photo as well
         if claim_form:
             claim_photo_url = claim_form.ownership_photo
+            print(claim_photo_url)
         
-            if item.delete() and delete_photo_supabase(item_url) and delete_photo_supabase(claim_photo_url):
+            if item.delete() and delete_photo_supabase(item_url) and delete_photo_supabase(claim_photo_url, "ownership-photo"):
                 return JsonResponse({"message": "Item deleted."}, status=200)
             else:
-                return JsonResponse({"message": "Error deleting item."}, status=405)
+                return JsonResponse({"message": "Error deleting item with claim."}, status=405)
             
         if item.delete() and delete_photo_supabase(item_url):
             return JsonResponse({"message": "Item deleted."}, status=200)
         else:
             return JsonResponse({"message": "Error deleting item."}, status=405)
-    except LostItem.DoesNotExist:
-         return JsonResponse({"message": "Item does not exists."}, status=404)
+    except Exception as e:
+             # Handle any other exceptions that might occur during the update process
+            return JsonResponse({"message": f"Database error: {str(e)}"}, status=500)
     
