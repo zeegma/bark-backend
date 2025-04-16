@@ -1,12 +1,11 @@
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.http.multipartparser import MultiPartParser
+from django.core.files.uploadhandler import TemporaryFileUploadHandler
 
-import os
-import re
 import json
-from supabase import create_client, Client
-from datetime import datetime
 
+from .helpers.item_helpers import upload_photo_supabase, delete_photo_supabase
 from core.models import LostItem
 
 # Lost Items GET
@@ -33,20 +32,72 @@ def create_lost_items(request):
 
     # Convert JSON string to dictionary
     data = json.loads(request.POST['data'])
+    data['photo_url'] = image_url
 
     # Instantiate the item to be saved
-    item = LostItem(
-        name=data.get('name'),
-        description=data.get('description'),
-        category=data.get('category'),
-        date_found = data.get('date_found'),
-        time_found = data.get('time_found'),
-        location_found=data.get('location_found'),
-        photo_url=image_url,
-        status=data.get('status'),
-    )
+    item = LostItem(**data)
     item.save()
     return JsonResponse({"message": "Item created"}, status=200)
+
+
+# Lost Items PUT
+@csrf_exempt
+def edit_lost_items(request, item_id):
+
+    # If the response has both json data and an image
+    if request.content_type.startswith('multipart/form-data'):
+
+         # Required to handle file uploads
+        request.upload_handlers = [TemporaryFileUploadHandler(request)]
+
+        # Initialize parser to get the data and files value
+        parser = MultiPartParser(
+            request.META,
+            request,
+            request.upload_handlers,
+        )
+
+        # Get the parsed data and files querydict and value
+        data, files = parser.parse()
+
+        # Access JSON string
+        json_data = json.loads(data['data'])
+
+        # Access image file
+        image_file = files.get('image')
+        
+        # Delete old photo from Supabase
+        # Check if 'photo_url' exists in the data dictionary BEFORE attempting to access it
+        if json_data['photo_url']:
+            if delete_photo_supabase(json_data['photo_url']) == -1:
+                return JsonResponse({"message": "Error deleting old photo from Supabase."}, status=500)
+            else:
+                print("Photo successfuly deleted.")
+        else:
+            print("No photo to delete.")
+
+        # If the image file exists, we try to upload it to Supabase
+        if image_file:
+            image_url = upload_photo_supabase(image_file)
+            if image_url == -1:
+                return JsonResponse({"message": "Error uploading new photo to Supabase."}, status=500)
+            else:
+                json_data['photo_url'] = image_url
+        else:
+            print("No new photo uploaded.")
+
+        try:
+            # Update items based on the item in the url
+            if LostItem.objects.filter(id=item_id).update(**json_data):
+                return JsonResponse({"message": "Item updated successfully."}, status=200)
+            else:
+                return JsonResponse({"message": "Item not found or update failed."}, status=404)
+        except Exception as e:
+             # Handle any other exceptions that might occur during the update process
+            return JsonResponse({"message": f"Database error: {str(e)}"}, status=500)
+
+    else:
+        return JsonResponse({"message": "Request must be multipart/form-data."}, status=400)
 
 
 # Lost Items DELETE
@@ -55,67 +106,12 @@ def delete_lost_items(request, item_id):
 
     try:
         item = LostItem.objects.get(id=item_id)
-        if item.delete():
+        item_url = item.photo_url
+        
+        if item.delete() and delete_photo_supabase(item_url):
             return JsonResponse({"message": "Item deleted."}, status=200)
         else:
             return JsonResponse({"message": "Error deleting item."}, status=405)
     except LostItem.DoesNotExist:
          return JsonResponse({"message": "Item does not exists."}, status=404)
     
-
-# Creates a supabase connection
-def create_supabase_instance():
-    url: str = os.environ.get('SUPABASE_URL')
-    key: str = os.environ.get('SUPABASE_KEY')
-
-    supabase: Client = create_client(url, key)
-
-    return supabase
-
-
-# Uploads image from request to supabase
-def upload_photo_supabase(image):
-    supabase = create_supabase_instance()
-    image_data = image.read()
-
-    # Get last uploaded image name
-    response = (
-        supabase.storage
-        .from_("lost-item-images")
-        .list(
-            "",
-            {
-                "limit": 1,
-                "offset": 0,
-                "sortBy": {"column": "name", "order": "desc"},
-            }
-        )
-    )
-
-    # Get the name of the last item, and find what numbers it has
-    item_count = re.findall(r'\d+', response[0].get('name'))
-
-    # Convert said count to integer
-    item_count = int(item_count[0])
-
-    # Create string name with prefix, item count + 1, and content_type
-    image_name = "image_" + str(item_count + 1) + "." + image.content_type.split('/')[1]
-
-    # Upload image to supabase
-    try:
-        supabase.storage.from_("lost-item-images").upload(
-                file=image_data,
-                path=image_name,
-                file_options={"content-type": image.content_type}
-            )
-    except:
-        return -1
-    
-    # Takes the working URL of the recently uploaded image for storing
-    url_response = (
-        supabase.storage
-        .from_("lost-tiem-images")
-        .get_public_url(image.name)
-    )
-
-    return url_response
