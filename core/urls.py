@@ -1,6 +1,7 @@
 from django.urls import path
 from .views.lost_item_views import (
     get_lost_items,
+    get_lost_item,
     create_lost_items,
     edit_lost_items,
     delete_lost_items
@@ -18,8 +19,9 @@ urlpatterns = [
     # Lost Items
     path("", get_lost_items, name="getLostItems"),
     path("lost-items/", get_lost_items, name="getLostItems"),
+    path("lost-items/<int:item_id>/", get_lost_item, name="getLostItem"),
     path("lost-items/create/", create_lost_items, name="createLostItems"),
-    path("lost-items/<int:item_id>/", edit_lost_items, name="editLostItems"),
+    path("lost-items/<int:item_id>/edit", edit_lost_items, name="editLostItems"),
     path("lost-items/<int:item_id>/delete/", delete_lost_items, name="deleteLostItems"),
 
     # Claim Form
