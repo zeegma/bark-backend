@@ -11,6 +11,21 @@ def get_admins(request):
     items = Admin.objects.all().values()
     return JsonResponse(list(items), status=200, safe=False)
 
+# Admin GET: Retrive details of specific admin
+@csrf_exempt
+def admin_detail(request, admin_id):
+    if request.method == 'GET':
+        try:
+            admin = Admin.objects.get(id=admin_id)
+            return JsonResponse({
+                "id": admin.id,
+                "name": admin.name,
+                "email": admin.email,
+                "number": admin.number
+            }, status=200)
+        except Admin.DoesNotExist:
+            return JsonResponse({"message": "Account does not exist."}, status=404)
+
 # Admin POST: Create new admin account
 @csrf_exempt
 def register_admin(request):
@@ -40,6 +55,9 @@ def register_admin(request):
 # Admin: Delete admin account
 @csrf_exempt
 def delete_admin(request, admin_id):
+    if request.method != 'DELETE':
+        return JsonResponse({"message": "Only DELETE method allowed."}, status=405)
+
     try:
         admin = Admin.objects.get(id=admin_id)
         if admin.delete():

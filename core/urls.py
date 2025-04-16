@@ -14,5 +14,5 @@ urlpatterns = [
     path("admins/register/", register_admin, name="registerAdmin"),
     path("admins/<int:admin_id>/", admin_detail, name="getAdminDetail"),
     path("admins/login/", login_admin, name="loginAdmin"),
-    path("admins/<int:admin_id>/delete", delete_admin, name="deleteAdmin")
+    path("admins/<int:admin_id>/delete/", delete_admin, name="deleteAdmin")
 ]
