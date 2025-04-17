@@ -8,9 +8,24 @@ from core.models import LostItem, ClaimForm
 
 # Claim Form GET
 def get_claim_forms(request):
+    claim_forms = ClaimForm.objects.select_related('item_id').all()
 
-    items = ClaimForm.objects.all().values()
-    return JsonResponse(list(items), status=200, safe=False)
+    response_data = []
+    for claim in claim_forms:
+        response_data.append({
+            "id": claim.id,
+            "request_date": claim.request_date,
+            "name": claim.name,
+            "ownership_photo": claim.ownership_photo,
+            "detailed_description": claim.detailed_description,
+            "number": claim.number,
+            "media": claim.media,
+            "item_id": claim.item_id.id,
+            "item_name": claim.item_id.name,     
+            "item_image_url": claim.item_id.photo_url
+        })
+
+    return JsonResponse(response_data, status=200, safe=False)
 
 # Claim Form POST
 @csrf_exempt
