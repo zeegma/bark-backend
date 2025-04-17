@@ -1,13 +1,46 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser, BaseUserManager
+
+# Custom User Manager
+class AdminManager(BaseUserManager):
+    def create_user(self, email, name, number, password=None):
+        if not email:
+            raise ValueError('Email is required')
+        user = self.model(
+            email=self.normalize_email(email),
+            name=name,
+            number=number,
+        )
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, email, name, number, password=None):
+        user = self.create_user(
+            email=email,
+            name=name,
+            number=number,
+            password=password,
+        )
+        user.is_admin = True
+        user.is_staff = True
+        user.is_superuser = True
+        user.save(using=self._db)
+        return user
 
 # Admin Model
-class Admin(models.Model):
+class Admin(AbstractUser):
     id = models.BigAutoField(primary_key=True)
-    name = models.CharField()
-    email = models.CharField(unique=True)
-    number = models.CharField()
-    password = models.CharField()
-
+    name = models.CharField(max_length=100)
+    email = models.EmailField(unique=True)
+    number = models.CharField(max_length=15, blank=True, null=True)
+    username = None
+    
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['name', 'number']
+    
+    objects = AdminManager()
+    
     class Meta:
         db_table = 'Admin'
         db_table_comment = 'Admin credentials for secure access.'

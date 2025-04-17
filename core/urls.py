@@ -6,6 +6,8 @@ from .views.lost_item_views import (
     edit_lost_items,
     delete_lost_items
 )
+from .views.admin_views import get_admins, register_admin, admin_detail, login_admin, delete_admin, logout_admin
+
 from .views.claim_form_views import create_claim_form, get_claim_forms
 from .views.admin_dashboard_views import (
     total_items,
@@ -23,6 +25,13 @@ urlpatterns = [
     path("lost-items/create/", create_lost_items, name="createLostItems"),
     path("lost-items/<int:item_id>/edit", edit_lost_items, name="editLostItems"),
     path("lost-items/<int:item_id>/delete/", delete_lost_items, name="deleteLostItems"),
+
+    path("admins/", get_admins, name="getAdmins"),
+    path("admins/register/", register_admin, name="registerAdmin"),
+    path("admins/<int:admin_id>/", admin_detail, name="getAdminDetail"),
+    path("admins/login/", login_admin, name="loginAdmin"),
+    path("admins/<int:admin_id>/delete/", delete_admin, name="deleteAdmin"),
+    path("admins/logout/", logout_admin, name="logoutAdmin"),
 
     # Claim Form
     path("claim-forms/", get_claim_forms, name="getClaimForms"),
