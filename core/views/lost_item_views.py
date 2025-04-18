@@ -127,7 +127,7 @@ def delete_lost_items(request, item_id):
 
     try:
         item = LostItem.objects.get(id=item_id)
-        claim_form = ClaimForm.objects.get(item_id=item_id)
+        claim_form = ClaimForm.objects.filter(item_id=item_id).first()
         item_url = item.photo_url
 
         # If item has a claim, delete the claim photo as well
