@@ -8,7 +8,7 @@ from .views.lost_item_views import (
 )
 from .views.admin_views import get_admins, register_admin, admin_detail, login_admin, delete_admin, logout_admin
 
-from .views.claim_form_views import create_claim_form, get_claim_forms
+from .views.claim_form_views import create_claim_form, get_claim_forms, delete_claim_forms
 from .views.admin_dashboard_views import (
     total_items,
     lost_items,
@@ -36,11 +36,13 @@ urlpatterns = [
     # Claim Form
     path("claim-forms/", get_claim_forms, name="getClaimForms"),
     path("claim-form/create/", create_claim_form, name="createClaimForm"),
+    path('claimants/delete/', delete_claim_forms, name='deleteClaimForms'),
+
 
     # Admin Dashboard
-    path("admin/dashboard/", dashboard_stats, name="dashboard_stats"),
-    path("admin/stats/total/", total_items, name="total_items"),
-    path("admin/stats/lost/", lost_items, name="lost_items"),
-    path("admin/stats/claimed/", claimed_items, name="claimed_items"),
-    path("admin/stats/expired/", expired_items, name="expired_items"),
+    path("admin/dashboard/", dashboard_stats, name="dashboardStats"),
+    path("admin/stats/total/", total_items, name="totalItems"),
+    path("admin/stats/lost/", lost_items, name="lostItems"),
+    path("admin/stats/claimed/", claimed_items, name="claimedItems"),
+    path("admin/stats/expired/", expired_items, name="expiredItems"),
 ]

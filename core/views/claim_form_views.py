@@ -54,3 +54,26 @@ def create_claim_form(request):
 
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=400)
+
+# Claim Item Delete
+@csrf_exempt
+def delete_claim_forms(request):
+    if request.method != 'POST':
+        return JsonResponse({"error": "Only POST method is allowed."}, status=405)
+
+    try:
+        data = json.loads(request.body)
+        ids = data.get("ids", [])
+
+        if not isinstance(ids, list) or not ids:
+            return JsonResponse({"error": "Provide a list of claimant IDs to delete."}, status=400)
+
+        # Delete all matching IDs
+        deleted_count, _ = ClaimForm.objects.filter(id__in=ids).delete()
+
+        return JsonResponse({
+            "message": f"{deleted_count} claim form(s) deleted successfully."
+        }, status=200)
+
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=400)
