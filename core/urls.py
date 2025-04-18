@@ -23,7 +23,7 @@ urlpatterns = [
     path("lost-items/", get_lost_items, name="getLostItems"),
     path("lost-items/<int:item_id>/", get_lost_item, name="getLostItem"),
     path("lost-items/create/", create_lost_items, name="createLostItems"),
-    path("lost-items/<int:item_id>/edit", edit_lost_items, name="editLostItems"),
+    path("lost-items/<int:item_id>/edit/", edit_lost_items, name="editLostItems"),
     path("lost-items/<int:item_id>/delete/", delete_lost_items, name="deleteLostItems"),
 
     path("admins/", get_admins, name="getAdmins"),
