@@ -106,7 +106,7 @@ def edit_lost_items(request, item_id):
         # Delete old photo from Supabase
         # Check if 'photo_url' exists in the data dictionary BEFORE attempting to access it
         if json_data['photo_url']:
-            if delete_photo_supabase(json_data['photo_url']) == -1:
+            if delete_photo_supabase(json_data['photo_url']) == False:
                 return JsonResponse({"message": "Error deleting old photo from Supabase."}, status=500)
             else:
                 print("Photo successfuly deleted.")
@@ -147,7 +147,7 @@ def delete_lost_items(request, item_id):
         item_url = item.photo_url
 
         # If item has a claim, delete the claim photo as well
-        if claim_form:
+        if claim_form and claim_form.ownership_photo:
             claim_photo_url = claim_form.ownership_photo
             print(claim_photo_url)
         
