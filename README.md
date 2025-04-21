@@ -1,4 +1,4 @@
-# 🔗 Project Name
+# 🔗 PUP-BARK: Backend
 
 A backend service built with Django and integrated with Supabase for storage for PUP-BARK, a lost-and-found platform for constituents of the Polytechnic University of the Philippines.
 
@@ -6,16 +6,21 @@ A backend service built with Django and integrated with Supabase for storage for
 
 ## 📚 Table of Contents
 
-- [Overview](#overview)
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-  - [Environment Variables](#environment-variables)
-  - [Running the Project](#running-the-project)
-- [API Reference](#api-reference)
-- [License](#license)
+- [📝 Overview](#-overview)
+- [✨ Features](#-features)
+- [⚙️ Tech Stack](#-tech-stack)
+- [🚀 Getting Started](#-getting-started)
+  - [🧰 Prerequisites](#-prerequisites)
+  - [📦 Installation](#-installation)
+  - [🎄 Environment Variables](#-environment-variables)
+  - [🏁 Running the Project](#-running-the-project)
+  - [🛠️ Running Scripts](#️-running-scripts)
+- [🔌 API Reference](#-api-reference)
+  - [📦 Lost Items](#-lost-items)
+  - [🛡️ Admin](#-admin)
+  - [📋 Claim Form](#-claim-form)
+  - [📊 Admin Dashboard Stats](#-admin-dashboard-stats)
+- [🪪 License](#-license)
 
 ---
 
