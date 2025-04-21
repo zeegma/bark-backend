@@ -77,6 +77,13 @@ class LostItem(models.Model):
     location_found = models.TextField()
     photo_url = models.CharField()
     status = models.CharField(max_length=2, choices=Status.choices, default=Status.UNCLAIMED)
+    accepted_claim = models.OneToOneField(
+        'ClaimForm', 
+        on_delete=models.SET_NULL,
+        null=True, 
+        blank=True,
+        related_name='accepted_claim'
+    )
 
     class Meta:
         db_table = 'LostItem'
@@ -91,10 +98,11 @@ class ClaimForm(models.Model):
     detailed_description = models.TextField()
     number = models.CharField(max_length=11)
     media = models.URLField()
-    item_id = models.OneToOneField(
+    item_id = models.ForeignKey(
         LostItem,
         on_delete=models.CASCADE,
         primary_key=False,
+        related_name='claims'
     )
 
     class Meta:
