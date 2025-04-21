@@ -2,7 +2,6 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.http.multipartparser import MultiPartParser
 from django.core.files.uploadhandler import TemporaryFileUploadHandler
-from django.forms.models import model_to_dict
 
 import json
 
@@ -21,6 +20,22 @@ def get_lost_item(request, item_id):
 
     try:
         item = LostItem.objects.get(id=item_id)
+
+        # Check if there's an accepted claim
+        if item.accepted_claim:
+            claim_info = item.accepted_claim.id  # Return just the ID if accepted
+        else:
+            # Return list of all potential claims (not yet accepted)
+            claim_info = [
+                {
+                    "id": claim.id,
+                    "name": claim.name,
+                    "request_date": claim.request_date.isoformat(),
+                    "description": claim.detailed_description,
+                }
+                for claim in item.claims.all()
+            ]
+
         return JsonResponse({
             "id": item.id,
             "name": item.name,
@@ -30,7 +45,8 @@ def get_lost_item(request, item_id):
             "time_found": item.time_found,
             "location_found": item.location_found,
             "photo_url": item.photo_url,
-            "status": item.status
+            "status": item.status,
+            "claim": claim_info
         }, status=200, safe=False)
     except LostItem.DoesNotExist:
         return JsonResponse({"message": "Item does not exist."}, status=404)
