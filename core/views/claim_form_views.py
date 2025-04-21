@@ -58,18 +58,34 @@ def create_claim_form(request):
 # Claim Item Delete
 @csrf_exempt
 def delete_claim_forms(request):
-    if request.method != 'POST':
-        return JsonResponse({"error": "Only POST method is allowed."}, status=405)
+    if request.method not in ['POST', 'DELETE']:
+        return JsonResponse({"error": "Only POST or DELETE method is allowed."}, status=405)
 
     try:
         data = json.loads(request.body)
         ids = data.get("ids", [])
-
+        
         if not isinstance(ids, list) or not ids:
             return JsonResponse({"error": "Provide a list of claimant IDs to delete."}, status=400)
 
-        # Delete all matching IDs
-        deleted_count, _ = ClaimForm.objects.filter(id__in=ids).delete()
+        # Get the IDs of the claim forms
+        claim_forms = ClaimForm.objects.filter(id__in=ids)
+
+        # Collect photo URLs before deletion
+        photo_urls = []
+        for cf in claim_forms:
+            if cf.ownership_photo:
+                photo_urls.append(cf.ownership_photo)
+
+        try: 
+            # Delete photo from Supabase
+            for url in photo_urls:
+                delete_photo_supabase(url, "ownership-photo")
+
+            # Delete DB records
+            deleted_count, _ = claim_forms.delete()
+        except Exception:
+            return JsonResponse({"message": f"Error deleting."}, status=500)
 
         return JsonResponse({
             "message": f"{deleted_count} claim form(s) deleted successfully."
