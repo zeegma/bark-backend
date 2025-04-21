@@ -1,6 +1,7 @@
 import os
 import re
 from supabase import create_client, Client
+import shortuuid
 
 """
 upload_photo_supabase parameters
@@ -13,13 +14,13 @@ bucket          = which bucket to upload the photo, default is lost-item-images.
 return value is the url of the image which can be used for creating or editing records.
 
 """
-def upload_photo_supabase(image, image_name="default", bucket="lost-item-images"):
+def upload_photo_supabase(image, bucket="lost-item-images"):
 
     supabase = create_supabase_instance()
 
-    # If it needs dynamic naming
-    if image_name == "default":
-        image_name = setup_photo_name(supabase, image, bucket)
+    # Provide unique image name using uuid
+    image_name = setup_photo_name(supabase, image, bucket)
+
     image_data = image.read()
 
     # Upload image to supabase
@@ -59,33 +60,7 @@ def create_supabase_instance():
 # If there is a need for automatic naming, call the function
 def setup_photo_name(supabase, image, bucket):
 
-    # Get last uploaded image name
-    response = (
-        supabase.storage
-        .from_(bucket)
-        .list(
-            "",
-            {
-                "limit": 1,
-                "offset": 0,
-                "sortBy": {"column": "created_at", "order": "desc"},
-            }
-        )
-    )
-
-    # Get the name of the last item, and find what numbers it has
-    item_count = re.findall(r'\d+', response[0].get('name'))
-
-    # Convert said count to integer
-    item_count = int(item_count[0])
-
-    if bucket == "lost-item-images":
-        # Create string name with prefix, item count + 1, and content_type
-        image_name = "image_" + str(item_count + 1) + "." + image.content_type.split('/')[1]
-    else:
-        image_name = "claim_photo_" + str(item_count + 1) + "." + image.content_type.split('/')[1]
-
-    return image_name
+    return shortuuid.uuid() + '.' + image.content_type.split('/')[1]
 
 
 # Delete photo from Supabase
@@ -95,10 +70,7 @@ def delete_photo_supabase(photo_url, bucket="lost-item-images"):
     supabase = create_supabase_instance()
 
     # Extract the name of the file with its type for deletion
-    if bucket == "lost-item-images":
-        photo_url = re.search(r'image_\d+\.(jpg|jpeg|png|gif|bmp|webp)', photo_url, re.IGNORECASE)
-    else:
-        photo_url = re.search(r'claim_photo_\d+\.(jpg|jpeg|png|gif|bmp|webp)', photo_url, re.IGNORECASE)
+    photo_url = re.search(r'[\w-]+\.(jpg|jpeg|png|gif|bmp|webp)', photo_url, re.IGNORECASE)
     image_name = ""
 
     # If there is a match to the pattern, store it to a new variable
@@ -106,6 +78,7 @@ def delete_photo_supabase(photo_url, bucket="lost-item-images"):
         image_name = photo_url.group()
         print(image_name)
     else:
+        print("ERROR FINDING PHOTO NAME")
         return False
     
     # Delete image from supabase
