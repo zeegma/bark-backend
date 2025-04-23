@@ -81,61 +81,70 @@ def create_lost_items(request):
 @csrf_exempt
 def edit_lost_items(request, item_id):
 
+    try:
+        item_to_edit = LostItem.objects.get(id=item_id)
+        old_photo_url = item_to_edit.photo_url
+        new_photo_url = None
+    except LostItem.DoesNotExist:
+        return JsonResponse({"message": "Item not found."}, status=404)
+
     # If the response has both json data and an image
-    if request.content_type.startswith('multipart/form-data'):
+    if  not request.content_type.startswith('multipart/form-data'):
+        return JsonResponse({"message": "Request must be multipart/form-data."}, status=400)
 
-         # Required to handle file uploads
-        request.upload_handlers = [TemporaryFileUploadHandler(request)]
+    # Required to handle file uploads
+    request.upload_handlers = [TemporaryFileUploadHandler(request)]
 
-        # Initialize parser to get the data and files value
-        parser = MultiPartParser(
-            request.META,
-            request,
-            request.upload_handlers,
-        )
+    # Initialize parser to get the data and files value
+    parser = MultiPartParser(
+        request.META,
+        request,
+        request.upload_handlers,
+    )
 
-        # Get the parsed data and files querydict and value
-        data, files = parser.parse()
+    # Get the parsed data and files querydict and value
+    data, files = parser.parse()
 
-        # Access JSON string
-        json_data = json.loads(data['data'])
+    # Access JSON string
+    json_data = json.loads(data['data'])
 
-        # Access image file
-        image_file = files.get('image')
-        
-        # Delete old photo from Supabase
-        # Check if 'photo_url' exists in the data dictionary BEFORE attempting to access it
-        if json_data['photo_url']:
-            if delete_photo_supabase(json_data['photo_url']) == False:
+    # Access image file
+    image_file = files.get('image')
+    
+    # If the image file exists, we try to upload it to Supabase
+    if image_file:
+        # Upload phase
+        uploaded_image_url = upload_photo_supabase(image_file)
+        if not uploaded_image_url:
+            return JsonResponse({"message": "Error uploading new photo to Supabase."}, status=500)
+
+        # Delete old photo
+        if old_photo_url:
+            if not delete_photo_supabase(old_photo_url):
                 return JsonResponse({"message": "Error deleting old photo from Supabase."}, status=500)
             else:
                 print("Photo successfuly deleted.")
-        else:
-            print("No photo to delete.")
 
-        # If the image file exists, we try to upload it to Supabase
-        if image_file:
-            image_url = upload_photo_supabase(image_file)
-            if image_url == -1:
-                return JsonResponse({"message": "Error uploading new photo to Supabase."}, status=500)
-            else:
-                json_data['photo_url'] = image_url
-        else:
-            print("No new photo uploaded.")
-
-        try:
-            # Update items based on the item in the url
-            if LostItem.objects.filter(id=item_id).update(**json_data):
-                return JsonResponse({"message": "Item updated successfully."}, status=200)
-            else:
-                return JsonResponse({"message": "Item not found or update failed."}, status=404)
-        except Exception as e:
-             # Handle any other exceptions that might occur during the update process
-            return JsonResponse({"message": f"Database error: {str(e)}"}, status=500)
-
+        new_photo_url = uploaded_image_url
     else:
-        return JsonResponse({"message": "Request must be multipart/form-data."}, status=400)
+        if 'photo_url' in json_data:
+            new_photo_url = json_data['photo_url']
+        else:
+            new_photo_url = old_photo_url
+        print("No photo to delete.")
 
+    # Update the photo_url field with the new one
+    json_data['photo_url'] = new_photo_url
+    
+    try:
+        # Update items based on the item in the url
+        if LostItem.objects.filter(id=item_id).update(**json_data):
+            return JsonResponse({"message": "Item updated successfully."}, status=200)
+        else:
+            return JsonResponse({"message": "Item not found or update failed."}, status=404)
+    except Exception as e:
+            # Handle any other exceptions that might occur during the update process
+        return JsonResponse({"message": f"Database error: {str(e)}"}, status=500)
 
 # Lost Items DELETE
 @csrf_exempt
