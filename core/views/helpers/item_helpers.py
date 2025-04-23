@@ -32,7 +32,7 @@ def upload_photo_supabase(image, bucket="lost-item-images"):
                 file_options={"content-type": image.content_type}
             )
     except:
-        return -1
+        return False
     
     # Takes the working URL of the recently uploaded image for storing
     url_response = (
