@@ -1,5 +1,6 @@
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 
 import os
 import re
@@ -10,6 +11,8 @@ from datetime import datetime
 from core.models import LostItem, ClaimForm
 
 # Dashboard Get
+@login_required
+@csrf_exempt
 def dashboard_stats(request):
     """Endpoint for all dashboard statistics"""
     try:
@@ -31,6 +34,8 @@ def dashboard_stats(request):
         return JsonResponse({"error": str(e)}, status=500)
 
 # Total Items GET
+@login_required
+@csrf_exempt
 def total_items(request):
     """Endpoint for total items count"""
     try:
@@ -40,6 +45,7 @@ def total_items(request):
         return JsonResponse({"error": str(e)}, status=500)
 
 # Unclaimed Total Items
+@login_required
 def lost_items(request):
     """Endpoint for unclaimed/lost items count"""
     try:
@@ -49,6 +55,7 @@ def lost_items(request):
         return JsonResponse({"error": str(e)}, status=500)
     
 # Claimed Total Items
+@login_required
 def claimed_items(request):
     """Endpoint for claimed items count"""
     try:
@@ -58,6 +65,7 @@ def claimed_items(request):
         return JsonResponse({"error": str(e)}, status=500)
 
 # Expried Total Items
+@login_required
 def expired_items(request):
     """Endpoint for expired items count"""
     try:

@@ -1,5 +1,6 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 import json
 
 from .helpers.item_helpers import upload_photo_supabase, delete_photo_supabase
@@ -7,6 +8,8 @@ from .helpers.item_helpers import upload_photo_supabase, delete_photo_supabase
 from core.models import LostItem, ClaimForm
 
 # Claim Form GET
+@login_required
+@csrf_exempt
 def get_claim_forms(request):
     claim_forms = ClaimForm.objects.select_related('item_id').all()
 
@@ -28,7 +31,7 @@ def get_claim_forms(request):
     return JsonResponse(response_data, status=200, safe=False)
 
 # Claim Form POST
-@csrf_exempt
+@login_required
 def create_claim_form(request):
     if request.method != 'POST':
         return JsonResponse({"message": "Only POST allowed."}, status=405)
@@ -56,7 +59,7 @@ def create_claim_form(request):
         return JsonResponse({"error": str(e)}, status=400)
 
 # Claim Item Delete
-@csrf_exempt
+@login_required
 def delete_claim_forms(request):
     if request.method not in ['POST', 'DELETE']:
         return JsonResponse({"error": "Only POST or DELETE method is allowed."}, status=405)

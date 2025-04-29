@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.http.multipartparser import MultiPartParser
 from django.core.files.uploadhandler import TemporaryFileUploadHandler
+from django.contrib.auth.decorators import login_required
 
 import json
 
@@ -9,6 +10,7 @@ from .helpers.item_helpers import upload_photo_supabase, delete_photo_supabase
 from core.models import LostItem, ClaimForm
 
 # Lost Items GET
+@login_required
 def get_lost_items(request):
 
     items = LostItem.objects.all().values()
@@ -16,6 +18,7 @@ def get_lost_items(request):
 
 
 # Lost Item Single Item GET
+@login_required
 def get_lost_item(request, item_id):
 
     try:
@@ -53,6 +56,7 @@ def get_lost_item(request, item_id):
 
 
 # Lost Items POST
+@login_required
 @csrf_exempt
 def create_lost_items(request):
 
@@ -78,6 +82,7 @@ def create_lost_items(request):
 
 
 # Lost Items PUT
+@login_required
 @csrf_exempt
 def edit_lost_items(request, item_id):
 
@@ -147,6 +152,7 @@ def edit_lost_items(request, item_id):
         return JsonResponse({"message": f"Database error: {str(e)}"}, status=500)
 
 # Lost Items DELETE
+@login_required
 @csrf_exempt
 def delete_lost_items(request, item_id):
 
