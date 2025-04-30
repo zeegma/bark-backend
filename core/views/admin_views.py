@@ -1,7 +1,6 @@
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth import password_validation
 from django.core.exceptions import ValidationError
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -47,7 +46,6 @@ def register_admin(request):
             return JsonResponse({"message": "Account with this email already exists."}, status=400)
         
         try:
-            from django.contrib.auth import password_validation
             password_validation.validate_password(password)
         except ValidationError as e:
             return JsonResponse({"message": "Password validation failed", "errors": list(e)}, status=400)
