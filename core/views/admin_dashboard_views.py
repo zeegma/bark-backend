@@ -1,14 +1,8 @@
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 
-import os
-import re
-import json
-from supabase import create_client, Client
-from datetime import datetime
-
-from core.models import LostItem, ClaimForm
+from core.models import LostItem
 
 # Dashboard Get
 @login_required
