@@ -1,12 +1,14 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 
 from core.models import LostItem
 
 # Dashboard Get
-@login_required
 @csrf_exempt
+@permission_classes([IsAuthenticated])
 def dashboard_stats(request):
     """Endpoint for all dashboard statistics"""
     try:
@@ -28,8 +30,8 @@ def dashboard_stats(request):
         return JsonResponse({"error": str(e)}, status=500)
 
 # Total Items GET
-@login_required
 @csrf_exempt
+@permission_classes([IsAuthenticated])
 def total_items(request):
     """Endpoint for total items count"""
     try:
@@ -40,6 +42,7 @@ def total_items(request):
 
 # Unclaimed Total Items
 @login_required
+@permission_classes([IsAuthenticated])
 def lost_items(request):
     """Endpoint for unclaimed/lost items count"""
     try:
@@ -50,6 +53,7 @@ def lost_items(request):
     
 # Claimed Total Items
 @login_required
+@permission_classes([IsAuthenticated])
 def claimed_items(request):
     """Endpoint for claimed items count"""
     try:
@@ -60,6 +64,7 @@ def claimed_items(request):
 
 # Expried Total Items
 @login_required
+@permission_classes([IsAuthenticated])
 def expired_items(request):
     """Endpoint for expired items count"""
     try:

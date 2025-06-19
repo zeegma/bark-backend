@@ -1,6 +1,8 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 import json
 
 from .helpers.item_helpers import upload_photo_supabase, delete_photo_supabase
@@ -8,6 +10,7 @@ from .helpers.item_helpers import upload_photo_supabase, delete_photo_supabase
 from core.models import LostItem, ClaimForm
 
 # Claim Form GET
+@permission_classes([IsAuthenticated])
 def get_claim_forms(request):
     claim_forms = ClaimForm.objects.select_related('item_id').all()
 

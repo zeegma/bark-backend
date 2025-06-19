@@ -2,7 +2,8 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.http.multipartparser import MultiPartParser
 from django.core.files.uploadhandler import TemporaryFileUploadHandler
-from django.contrib.auth.decorators import login_required
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 
 import json
 
@@ -55,6 +56,7 @@ def get_lost_item(request, item_id):
 
 # Lost Items POST
 @csrf_exempt
+@permission_classes([IsAuthenticated])
 def create_lost_items(request):
 
     if request.method != 'POST':
@@ -80,6 +82,7 @@ def create_lost_items(request):
 
 # Lost Items PUT
 @csrf_exempt
+@permission_classes([IsAuthenticated])
 def edit_lost_items(request, item_id):
 
     try:
@@ -149,6 +152,7 @@ def edit_lost_items(request, item_id):
 
 # Lost Items DELETE
 @csrf_exempt
+@permission_classes([IsAuthenticated])
 def delete_lost_items(request, item_id):
 
     try:
