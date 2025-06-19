@@ -61,6 +61,7 @@ def create_claim_form(request):
 
 # Claim Item Delete
 @csrf_exempt
+@permission_classes([IsAuthenticated])
 def delete_claim_forms(request):
     if request.method not in ['POST', 'DELETE']:
         return JsonResponse({"error": "Only POST or DELETE method is allowed."}, status=405)
